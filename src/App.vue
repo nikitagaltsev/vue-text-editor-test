@@ -1,47 +1,14 @@
 <template>
-  <div>
+  <div id="app">
     <header class="header"><h1>Text editor on Vue.js</h1></header>
     <hr />
     <main>
-      <div class="select-container">
-        <select class="select" v-model="selectedFont" @change="formatFontSize">
-          <option
-            value=""
-            disabled
-            class="select__option select__option_heading"
-            >Font Size</option
-          >
-          <option value="small" class="select__option">Small</option>
-          <option value="medium" class="select__option">Medium</option>
-          <option value="large" class="select__option">Large</option>
-        </select>
-
-        <select class="select" v-model="selectedColor" @change="formatColor">
-          <option
-            value=""
-            class="select__option select__option_heading"
-            disabled
-            >Text Color</option
-          >
-          <option value="red" class="select__option">Red</option>
-          <option value="green" class="select__option">Green</option>
-          <option value="blue" class="select__option">Blue</option>
-          <option value="black" class="select__option">Black</option>
-        </select>
-
-        <select class="select" v-model="selectedBG">
-          <option
-            value=""
-            class="select__option select__option_heading"
-            disabled
-            >Background</option
-          >
-          <option value="red" class="select__option">Red</option>
-          <option value="green" class="select__option">Green</option>
-          <option value="blue" class="select__option">Blue</option>
-          <option value="black" class="select__option">Black</option>
-        </select>
-      </div>
+      <Selectors
+        :formatting="formatting"
+        :selectedColor="selectedColor"
+        :selectedBG="selectedBG"
+        :selectedFontSize="selectedFontSize"
+      />
 
       <ContentEditable v-on:input="textEl = $event">
         {{ textEl }}
@@ -54,17 +21,18 @@
 </template>
 
 <script>
+import Selectors from "./components/Selectors";
 import ContentEditable from "./components/ContentEditable";
 export default {
   components: {
+    Selectors,
     ContentEditable,
   },
   data() {
     return {
-      selectedFont: "",
+      selectedFontSize: "",
       selectedColor: "",
       selectedBG: "",
-      selectedRange: null,
       textEl: "",
     };
   },
@@ -72,42 +40,24 @@ export default {
     getYear() {
       return new Date().getFullYear();
     },
-    formatFontSize() {
-      console.log(this.selectedFont);
-    },
-    formatColor() {
-      const sel = window.getSelection();
-      console.log(this.textEl);
-      console.dir(sel)
-      console.log(sel.anchorOffset, sel.focusOffset);
-      const span = `<span style="color: ${this.selectedColor}">${this.textEl.innerHTML
-        .split("")
-        .slice(sel.anchorOffset, sel.focusOffset)
-        .join("")}</span>`;
+    formatting(parameter, value) {
+      const range = window.getSelection().getRangeAt(0);
+      const span = document.createElement("span");
 
-      const before = this.textEl.innerHTML
-        .split("")
-        .slice(0, sel.anchorOffset)
-        .join("");
+      span.style[parameter] = value;
 
-      const after = this.textEl.innerHTML
-        .split("")
-        .slice(sel.focusOffset)
-        .join("");
-
-      console.log(before, after);
-      console.log(span);
-
-      this.textEl.innerHTML = ''
-      this.textEl.innerHTML = before + span + after;
-
-      console.log(this.textEl);
+      span.appendChild(range.extractContents());
+      range.insertNode(span);
     },
   },
 };
 </script>
 
 <style scoped>
+#app {
+  font-family: "Roboto", sans-serif;
+}
+
 .header {
   text-align: center;
 }
@@ -119,10 +69,18 @@ export default {
 .select-container {
   text-align: center;
   margin: 20px auto;
-  max-width: 600px;
+  max-width: 450px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .select {
   margin: 10px;
+}
+
+.color-input {
+  width: 50px;
+  height: 20px;
 }
 </style>

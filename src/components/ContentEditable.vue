@@ -5,7 +5,6 @@
     spellcheck="false"
     @input="getText"
   >
-    
   </div>
 </template>
 
@@ -24,7 +23,7 @@ export default {
   padding: 10px;
   margin: 0 auto;
   width: 800px;
-  height: 800px;
+  height: 400px;
   align-self: center;
   border: 1px solid gray;
   border-radius: 10px;
