@@ -43,9 +43,9 @@
         </select>
       </div>
 
-      <ContentEditable v-on:input="getText($event)"/>
-
-      
+      <ContentEditable v-on:input="textEl = $event">
+        {{ textEl }}
+      </ContentEditable>
     </main>
     <footer class="footer">
       <p>{{ getYear() }} © Nikita Galtsev. Test task for Redentu.</p>
@@ -54,39 +54,55 @@
 </template>
 
 <script>
-import ContentEditable from './components/ContentEditable'
+import ContentEditable from "./components/ContentEditable";
 export default {
   components: {
-    ContentEditable
+    ContentEditable,
   },
   data() {
     return {
-      selectedFont: '',
-      selectedColor: '',
-      selectedBG: '',
+      selectedFont: "",
+      selectedColor: "",
+      selectedBG: "",
       selectedRange: null,
-      textArr: ''
-    }
+      textEl: "",
+    };
   },
   methods: {
     getYear() {
       return new Date().getFullYear();
     },
-    getText(e) {
-      if (e.length) {
-        this.textArr = e.split('')
-      }
-    },
     formatFontSize() {
       console.log(this.selectedFont);
     },
     formatColor() {
-      const span = document.createElement('span')
-      const sel = window.getSelection()
+      const sel = window.getSelection();
+      console.log(this.textEl);
+      console.dir(sel)
+      console.log(sel.anchorOffset, sel.focusOffset);
+      const span = `<span style="color: ${this.selectedColor}">${this.textEl.innerHTML
+        .split("")
+        .slice(sel.anchorOffset, sel.focusOffset)
+        .join("")}</span>`;
 
-      span.insertAdjacentText('afterbegin', this.textArr.slice(sel.focusOffset, sel.anchorOffset).join(''))
-      console.log(span.textContent);
-    }
+      const before = this.textEl.innerHTML
+        .split("")
+        .slice(0, sel.anchorOffset)
+        .join("");
+
+      const after = this.textEl.innerHTML
+        .split("")
+        .slice(sel.focusOffset)
+        .join("");
+
+      console.log(before, after);
+      console.log(span);
+
+      this.textEl.innerHTML = ''
+      this.textEl.innerHTML = before + span + after;
+
+      console.log(this.textEl);
+    },
   },
 };
 </script>
@@ -109,5 +125,4 @@ export default {
 .select {
   margin: 10px;
 }
-
 </style>

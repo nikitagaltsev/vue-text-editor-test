@@ -4,14 +4,16 @@
     contenteditable="true"
     spellcheck="false"
     @input="getText"
-  ></div>
+  >
+    
+  </div>
 </template>
 
 <script>
 export default {
   methods: {
     getText() {
-      this.$emit('input', this.$el.innerText)
+      this.$emit('input', this.$el)
     }
   }
 };
@@ -26,5 +28,6 @@ export default {
   align-self: center;
   border: 1px solid gray;
   border-radius: 10px;
+  font-size: 30px;
 }
 </style>
