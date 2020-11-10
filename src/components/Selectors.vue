@@ -35,8 +35,33 @@
 
 <script>
 export default {
-  props: ['formatting', 'selectedColor', 'selectedBG', 'selectedFontSize']
+  props: ["formatting"],
+  data() {
+    return {
+      selectedFontSize: "",
+      selectedColor: "",
+      selectedBG: "",
+    };
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.select-container {
+  text-align: center;
+  margin: 20px auto;
+  max-width: 450px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.select {
+  margin: 10px;
+}
+
+.color-input {
+  width: 50px;
+  height: 20px;
+}
+</style>

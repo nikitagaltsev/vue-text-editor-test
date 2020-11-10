@@ -5,9 +5,6 @@
     <main>
       <Selectors
         :formatting="formatting"
-        :selectedColor="selectedColor"
-        :selectedBG="selectedBG"
-        :selectedFontSize="selectedFontSize"
       />
 
       <ContentEditable v-on:input="textEl = $event">
@@ -30,9 +27,6 @@ export default {
   },
   data() {
     return {
-      selectedFontSize: "",
-      selectedColor: "",
-      selectedBG: "",
       textEl: "",
     };
   },
@@ -42,7 +36,7 @@ export default {
     },
     formatting(parameter, value) {
       const range = window.getSelection().getRangeAt(0);
-      const span = document.createElement("span");
+      const span = document.createElement('span');
 
       span.style[parameter] = value;
 
@@ -66,21 +60,4 @@ export default {
   text-align: center;
 }
 
-.select-container {
-  text-align: center;
-  margin: 20px auto;
-  max-width: 450px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.select {
-  margin: 10px;
-}
-
-.color-input {
-  width: 50px;
-  height: 20px;
-}
 </style>
