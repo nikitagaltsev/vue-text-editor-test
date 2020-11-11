@@ -16,10 +16,10 @@ git init
 git add -A
 git commit -m 'deploy'
 
-# если вы публикуете по адресу https://<USERNAME>.github.io
-# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
+# # если вы публикуете по адресу https://<USERNAME>.github.io
+# git push -f git@github.com:nikitagaltsev/vue-text-editor-test.github.io.git master
 
 # если вы публикуете по адресу https://<USERNAME>.github.io/<REPO>
- git push -f git@github.com:<nikitagaltsev>/<vue-text-editor-test>.git master:gh-pages
+ git push -f git@github.com:nikitagaltsev/vue-text-editor-test.git master:gh-pages
 
 cd -
