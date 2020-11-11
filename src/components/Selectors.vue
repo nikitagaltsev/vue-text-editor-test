@@ -50,7 +50,7 @@ export default {
 .select-container {
   text-align: center;
   margin: 20px auto;
-  max-width: 450px;
+  max-width: 500px;
   display: flex;
   justify-content: space-between;
   align-items: center;

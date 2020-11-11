@@ -47,7 +47,7 @@ export default {
     },
 
     convertToJSON() {
-      //создаём массив на основе childNodes, благодаря return перезаписываем undefined на нужные свойства
+      // создаём массив на основе children, благодаря return перезаписываем undefined на нужные свойства
       console.log(this.textEl.children);
       const arr = [...new Array(this.textEl.children.length)].map((el, idx) => {
         if (this.textEl.children[idx].style) {
@@ -64,27 +64,19 @@ export default {
           };
         }
       });
-      console.log(arr);
 
       const finalArr = [];
 
-      for (let i = 0; i < arr.length - 1; i++) {
-        if (arr[i].fontSize === arr[i + 1].fontSize) {
-          arr[i].text = arr[i].text + arr[i + 1].text;
-          finalArr.push(arr[i]);
-        } else {
-          finalArr.push(arr[i+1]);
-        }
-      }
-      console.log(finalArr);
+
+      //проверка на похожие свойства в соседних объектах 
+      arr.forEach((el) =>
+        el.color === finalArr[finalArr.length - 1]?.color ??
+        el.fontSize === finalArr[finalArr.length - 1]?.fontSize
+          ? (finalArr[finalArr.length - 1].text += el.text)
+          : finalArr.push(el)
+      );
+
       console.log(JSON.stringify(finalArr));
-
-      // arr.filter((el, idx, arr) => {
-      //   if(el.fontSize === arr[idx + 1].fontSize && el.color === arr[idx + 1].color) {
-          
-      //   }
-      // })
-
     },
   },
 };
