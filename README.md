@@ -1,3 +1,5 @@
+Посмотреть можно тут -  https://nikitagaltsev.github.io/vue-text-editor-test/
+
 # vue-text-editor-test
 
 ## Project setup
