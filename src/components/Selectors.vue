@@ -46,7 +46,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .select-container {
   text-align: center;
   margin: 20px auto;

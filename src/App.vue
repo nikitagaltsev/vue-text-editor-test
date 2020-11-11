@@ -41,59 +41,56 @@ export default {
       const span = document.createElement("span");
 
       span.style[parameter] = value;
-      console.log(window.getSelection());
 
       span.appendChild(range.extractContents());
       range.insertNode(span);
-
-
-
-      // document.querySelector(".textarea").insertBefore(span.appendChild(range.extractContents()), window.getSelection().focusNode.parentNode)
-
-
-      // if (window.getSelection().focusNode.parentNode.tagName === 'SPAN') {
-      //   console.log(1234);
-      //   document
-      //     .querySelector(".textarea")
-      //     .insertBefore(
-      //       span.appendChild(range.extractContents()),
-      //       window.getSelection().anchorNode
-      //     );
-      // } else {
-      //   span.appendChild(range.extractContents());
-      //   range.insertNode(span);
-      // }
     },
 
     convertToJSON() {
-      const finalArr = []
-      const markup = this.textEa;
-      console.log(this.textEl.childNodes)
+      //создаём массив на основе childNodes, благодаря return перезаписываем undefined на нужные свойства
+      console.log(this.textEl.children);
+      const arr = [...new Array(this.textEl.children.length)].map((el, idx) => {
+        if (this.textEl.children[idx].style) {
+          return {
+            text: this.textEl.children[idx].textContent,
+            fontSize: this.textEl.children[idx].style.fontSize,
+            color: this.textEl.children[idx].style.color,
+          };
+        } else {
+          return {
+            text: this.textEl.textContent,
+            fontSize: "30px",
+            color: "black",
+          };
+        }
+      });
+      console.log(arr);
 
-      // const finalArr = [...new Array(this.textEl.childNodes.length)].map((el, idx) => {
-      //   for (let item of this.textEl.childNodes) {
-      //     console.log();
+      const finalArr = [];
+
+      for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i].fontSize === arr[i + 1].fontSize) {
+          arr[i].text = arr[i].text + arr[i + 1].text;
+          finalArr.push(arr[i]);
+        } else {
+          finalArr.push(arr[i+1]);
+        }
+      }
+      console.log(finalArr);
+      console.log(JSON.stringify(finalArr));
+
+      // arr.filter((el, idx, arr) => {
+      //   if(el.fontSize === arr[idx + 1].fontSize && el.color === arr[idx + 1].color) {
+          
       //   }
       // })
 
-      // for (let item of this.textEl.childNodes) {
-        
-      // }
-
-      for (let i = 0; i <= this.textEl.childNodes.length; i++) {
-        console.log(this.textEl.childNodes[i])
-      //   finalArr[i] = {
-      //     fontSize: this.textEl.childNodes[i].style.fontSize
-      //   }
-      // }
-
-      // console.log(finalArr);
     },
   },
 };
 </script>
 
-<style scoped>
+<style>
 #app {
   font-family: "Roboto", sans-serif;
 }
